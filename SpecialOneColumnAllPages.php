@@ -17,7 +17,12 @@ class SpecialOneColumnAllPages extends SpecialPage {
       $output = "<big>'''" . wfMessage( 'onecolumnallpages-intro', $wgSitename )->plain()
          . "'''</big><br>";
       $namespaces = MWNamespace::getCanonicalNamespaces();
-      $res = $dbr->select( 'page', array ( 'page_title', 'page_namespace' ) );
+      if ( $par != 'page_id' ) {
+         $res = $dbr->select( 'page', array ( 'page_title', 'page_namespace' ) );
+      } else {
+         $res = $dbr->select( 'page', array ( 'page_title', 'page_namespace' ),
+            array( '1=1' ), __METHOD__, array( 'ORDER BY' => 'page_id ASC' ) );
+      }
       foreach ( $res as $row ) {
          $output .= "[[:";
          if ( $row->page_namespace == 828 ) {
