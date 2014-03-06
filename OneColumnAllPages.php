@@ -39,3 +39,4 @@ $wgExtensionMessagesFiles['OneColumnAllPages'] = __DIR__ . '/OneColumnAllPages.i
 $wgAutoloadClasses['SpecialOneColumnAllPages'] = __DIR__ . '/SpecialOneColumnAllPages.php';
 $wgSpecialPages['OneColumnAllPages'] = 'SpecialOneColumnAllPages';
 $wgSpecialPageGroups['OneColumnAllPages'] = 'other';
+$wgOneColumnAllPagesRobotPolicy = 'index,follow';

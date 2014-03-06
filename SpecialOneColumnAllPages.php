@@ -15,22 +15,41 @@ class SpecialOneColumnAllPages extends SpecialPage {
       $dbr = wfGetDB( DB_SLAVE );
       global $wgSitename;
       $output = "<big>'''" . wfMessage( 'onecolumnallpages-intro', $wgSitename )->plain()
-         . "'''</big><br>";
+         . "'''</big><br/><br/>";
       $namespaces = MWNamespace::getCanonicalNamespaces();
-      $res = $dbr->select( 'page', array ( 'page_title', 'page_namespace' ) );
+      if ( $par != 'page_id' ) {
+         $res = $dbr->select( 'page', array ( 'page_title', 'page_namespace' ) );
+      } else {
+         $res = $dbr->select( 'page', array ( 'page_title', 'page_namespace' ),
+            array( '1=1' ), __METHOD__, array( 'ORDER BY' => 'page_id ASC' ) );
+      }
       foreach ( $res as $row ) {
          $output .= "[[:";
+         if ( $par == 'viewwikitext' ) {
+            $output .= 'Special:ViewWikitext/';
+         }
+         $pageTitle = '';
          if ( $row->page_namespace == 828 ) {
-            $output .= 'Module:';
+            $pageTitle .= 'Module:';
          } else {
-            $output .= $namespaces[$row->page_namespace];
+            $pageTitle .= $namespaces[$row->page_namespace];
             if ( $namespaces[$row->page_namespace] ) {
-               $output .= ':';
+               $pageTitle .= ':';
             }
          }
-         $output .= $row->page_title . "]]<br>";
+         $pageTitle .= $row->page_title;
+         $output .= $pageTitle;
+         if ( $par == 'viewwikitext' ) {
+            $output .= "|$pageTitle]]<br>";
+         }
+         else $output .= "$pageTitle]]<br>";
       }
       $viewOutput->addWikiText( $output );
       return $output;
+   }
+
+   function getRobotPolicy() {
+      global $wgOneColumnAllPagesRobotPolicy;
+      return $wgOneColumnAllPagesRobotPolicy;
    }
 }
