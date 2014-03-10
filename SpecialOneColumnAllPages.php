@@ -25,7 +25,11 @@ class SpecialOneColumnAllPages extends SpecialPage {
             array( '1=1' ), __METHOD__, array( 'ORDER BY' => 'page_id ASC' ) );
       }
       foreach ( $res as $row ) {
-         $output .= "[[:";
+         if ( $par == 'raw' ) {
+            $output .= '[{{fullurl:';
+         } else {
+            $output .= "[[:";
+         }
          if ( $par == 'viewwikitext' ) {
             $output .= 'Special:ViewWikitext/';
          }
@@ -41,9 +45,13 @@ class SpecialOneColumnAllPages extends SpecialPage {
          $pageTitle .= $row->page_title;
          $output .= $pageTitle;
          if ( $par == 'viewwikitext' && isset( $wgSpecialPages['ViewWikitext'] ) ) {
-            $output .= "|$pageTitle]]<br>";
+            $output .= "|$pageTitle]]<br/>";
          }
-         else $output .= "]]<br>";
+         elseif ( $par == 'raw' ) {
+            $output .= "|action=raw}} $pageTitle]<br/>";
+         } else {
+            $output .= "]]<br/>";
+         }
       }
       $viewOutput->addWikiText( $output );
       return $output;
