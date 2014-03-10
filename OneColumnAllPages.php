@@ -32,7 +32,7 @@ $wgExtensionCredits['specialpage'][] = array(
         'author' => 'Nathan Larson',
         'url' => 'https://mediawiki.org/wiki/Extension:OneColumnAllPages',
         'descriptionmsg' => 'onecolumnallpages-desc',
-        'version' => '1.0.0'
+        'version' => '1.0.1'
 );
 
 $wgExtensionMessagesFiles['OneColumnAllPages'] = __DIR__ . '/OneColumnAllPages.i18n.php';
