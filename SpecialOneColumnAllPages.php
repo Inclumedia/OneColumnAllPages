@@ -10,6 +10,7 @@ class SpecialOneColumnAllPages extends SpecialPage {
    }
 
    function execute( $par ) {
+      global $wgSpecialPages;
       $this->setHeaders();
       $viewOutput = $this->getOutput();
       $dbr = wfGetDB( DB_SLAVE );
@@ -39,7 +40,7 @@ class SpecialOneColumnAllPages extends SpecialPage {
          }
          $pageTitle .= $row->page_title;
          $output .= $pageTitle;
-         if ( $par == 'viewwikitext' ) {
+         if ( $par == 'viewwikitext' && isset( $wgSpecialPages['ViewWikitext'] ) ) {
             $output .= "|$pageTitle]]<br>";
          }
          else $output .= "]]<br>";
