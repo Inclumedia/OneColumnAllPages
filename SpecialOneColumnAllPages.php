@@ -42,7 +42,7 @@ class SpecialOneColumnAllPages extends SpecialPage {
          if ( $par == 'viewwikitext' ) {
             $output .= "|$pageTitle]]<br>";
          }
-         else $output .= "$pageTitle]]<br>";
+         else $output .= "]]<br>";
       }
       $viewOutput->addWikiText( $output );
       return $output;
