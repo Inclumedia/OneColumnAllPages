@@ -20,7 +20,8 @@ $messages['en'] = array(
     'onecolumnallpages-desc' => 'Implements [[Special:OneColumnAllPages|a special page]] that displays an unformatted list of all pages on the wiki.',
     'onecolumnallpages-intro' => 'Here is a list of all pages on $1:',
     'onecolumnallpagesviewtext-url' => 'Special:OneColumnAllPages/viewwikitext',
-    'onecolumnallpagesraw-url' => 'Special:OneColumnAllPages/raw'
+    'onecolumnallpagesraw-url' => 'Special:OneColumnAllPages/raw',
+    'onecolumnallpages-url' => 'Special:OneColumnAllPages'
 );
 
 /** German (Deutsch)
