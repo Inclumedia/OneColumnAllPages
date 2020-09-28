@@ -13,16 +13,24 @@ class SpecialOneColumnAllPages extends SpecialPage {
       global $wgSpecialPages;
       $this->setHeaders();
       $viewOutput = $this->getOutput();
-      $dbr = wfGetDB( DB_SLAVE );
+      $dbr = wfGetDB( DB_REPLICA );
       global $wgSitename;
       $output = "<big>'''" . wfMessage( 'onecolumnallpages-intro', $wgSitename )->plain()
          . "'''</big><br/><br/>";
       $namespaces = MWNamespace::getCanonicalNamespaces();
+	// Support for, e.g., page_id-0 as parameter, with 0 being the namespace
+	$where = array( '1=1' );
+	$pars = explode ( '-', $par );
+	if ( isset( $pars[1] ) ) {
+		echo $pars[1];
+		$where = array( 'page_namespace' => $pars[1] );
+		$par = $pars[0];
+	}
       if ( $par != 'page_id' ) {
-         $res = $dbr->select( 'page', array ( 'page_title', 'page_namespace' ) );
+         $res = $dbr->select( 'page', array ( 'page_title', 'page_namespace' ), $where );
       } else {
          $res = $dbr->select( 'page', array ( 'page_title', 'page_namespace' ),
-            array( '1=1' ), __METHOD__, array( 'ORDER BY' => 'page_id ASC' ) );
+            $where, __METHOD__, array( 'ORDER BY' => 'page_id ASC' ) );
       }
       foreach ( $res as $row ) {
          if ( $par == 'raw' ) {
@@ -53,7 +61,7 @@ class SpecialOneColumnAllPages extends SpecialPage {
             $output .= "]]<br/>";
          }
       }
-      $viewOutput->addWikiText( $output );
+      $viewOutput->addWikiTextAsContent( $output );
       return $output;
    }
 
